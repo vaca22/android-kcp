@@ -103,7 +103,7 @@ Java_com_vaca_myapplication_MainActivity_stringFromJNI(
 
     LOGE("fuck\n");
     createSocket();
-    connectSocket("192.168.5.100",12345);
+    connectSocket("127.0.0.1",12345);
     for(int k=0;k<1000;k++){
         sendData("fuck");
     }

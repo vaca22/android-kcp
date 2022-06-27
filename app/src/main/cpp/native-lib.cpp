@@ -16,25 +16,6 @@
 static int sockfd;
 
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_vaca_myapplication_MainActivity_stringFromJNI(
-        JNIEnv* env,
-        jobject /* this */) {
-
-
-
-    LOGE("fuck\n");
-
-
-
-
-
-    std::string hello = "Hello from C++";
-    return env->NewStringUTF(hello.c_str());
-
-
-}
-
 
 
 void createSocket(){
@@ -75,6 +56,8 @@ int  receiveData(int n){
     if ((rec_len = (int) recv(sockfd, buf, sizeof(buf), 0)) == -1) {
         LOGE("recv error");
         return 0;
+    }else{
+        LOGE("fuck  %s",buf);
     }
     return rec_len;
 }
@@ -95,4 +78,27 @@ void closeSocket(){
         return;
 //    shutdown(sockfd,0);
     close(sockfd);
+}
+
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_vaca_myapplication_MainActivity_stringFromJNI(
+        JNIEnv* env,
+        jobject /* this */) {
+
+
+
+    LOGE("fuck\n");
+    createSocket();
+    connectSocket("192.168.5.101",12345);
+    receiveData(24);
+
+
+
+
+
+    std::string hello = "Hello from C++";
+    return env->NewStringUTF(hello.c_str());
+
+
 }

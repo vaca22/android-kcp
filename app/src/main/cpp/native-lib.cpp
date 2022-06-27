@@ -6,7 +6,7 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <android/log.h>
-
+#include <unistd.h>
 
 #define TAG "tcomm"
 #define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, TAG, __VA_ARGS__)
@@ -93,5 +93,6 @@ void sendData(char *data){
 void closeSocket(){
     if (!sockfd)
         return;
-    shutdown(sockfd,0);
+//    shutdown(sockfd,0);
+    close(sockfd);
 }

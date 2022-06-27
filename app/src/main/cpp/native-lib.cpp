@@ -19,7 +19,7 @@ static int sockfd;
 
 
 void createSocket(){
-    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
         LOGE("create socket error\n");
     }else{
         LOGE("fuck2\n");
@@ -38,11 +38,17 @@ void connectSocket( char *ipaddr,int port){
         return;
     }
     LOGV("connect...");
-    if (connect(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0) {
-        LOGE("connect error\n");
-        return;
+//    if (connect(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0) {
+//        LOGE("connect error\n");
+//        return;
+//    }
+    int ret=bind(sockfd,(struct sockaddr*)&servaddr,sizeof(servaddr));
+    if(ret<0){
+        LOGV("connect fail!!!");
+    }else{
+        LOGV("connect succeed!!!");
     }
-    LOGV("connect succeed!!!");
+
 }
 
 
@@ -53,7 +59,9 @@ int  receiveData(int n){
     }
     jbyte buf[n];
     int rec_len;
-    if ((rec_len = (int) recv(sockfd, buf, sizeof(buf), 0)) == -1) {
+    struct sockaddr_in client_addr;
+    socklen_t len = sizeof(client_addr);
+    if ((rec_len = (int) recvfrom(sockfd, buf, sizeof(buf), 0,(struct sockaddr*)&client_addr, &len)) == -1) {
         LOGE("recv error");
         return 0;
     }else{
@@ -67,10 +75,15 @@ void sendData(char *data){
         printf("socket is failed! \n");
         return;
     }
-
-    if (send(sockfd, data, strlen(data), 0) < 0) {
-
+    struct sockaddr_in client_addr;
+    client_addr.sin_family = AF_INET;
+    client_addr.sin_port = htons(6000);
+    if (inet_pton(AF_INET, "192.168.5.101", &client_addr.sin_addr) <= 0) {
+        LOGE("inet_pton error for\n");
+        return;
     }
+    sendto(sockfd,data, strlen(data), 0, (struct sockaddr*)&client_addr, sizeof(client_addr));
+
 }
 
 void closeSocket(){
@@ -90,8 +103,12 @@ Java_com_vaca_myapplication_MainActivity_stringFromJNI(
 
     LOGE("fuck\n");
     createSocket();
-    connectSocket("192.168.5.101",12345);
-    receiveData(24);
+    connectSocket("192.168.5.100",12345);
+    for(int k=0;k<1000;k++){
+        sendData("fuck");
+    }
+
+ //   receiveData(24);
 
 
 

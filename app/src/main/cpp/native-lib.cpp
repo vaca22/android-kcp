@@ -74,7 +74,7 @@ void sendData(char *data){
     struct sockaddr_in client_addr;
     client_addr.sin_family = AF_INET;
     client_addr.sin_port = htons(6000);
-    if (inet_pton(AF_INET, "192.168.5.101", &client_addr.sin_addr) <= 0) {
+    if (inet_pton(AF_INET, dest_ip, &client_addr.sin_addr) <= 0) {
         LOGE("inet_pton error for\n");
         return;
     }

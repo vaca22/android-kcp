@@ -6,6 +6,8 @@ import android.widget.TextView
 import com.vaca.myapplication.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     val dataScope = CoroutineScope(Dispatchers.IO)
@@ -19,12 +21,20 @@ class MainActivity : AppCompatActivity() {
 
         // Example of a call to a native method
         binding.sampleText.text = initKcp()
+
+
+        dataScope.launch {
+            while (true){
+                updateKcp(System.currentTimeMillis())
+                delay(20)
+            }
+        }
     }
 
 
 
     external fun initKcp(): String
-    external fun updateKcp(): String
+    external fun updateKcp(t:Long)
 
     companion object {
         init {

@@ -45,20 +45,16 @@ Java_com_vaca_myapplication_MainActivity_initKcp(JNIEnv *env, jobject thiz) {
     kcp1->fastresend = 1;
 
     char buffer[20000];
-//    for(int k=0;k<8;k++){
     ikcp_send(kcp1, buffer, 20000);
-
-//    }
-
-    ikcp_update(kcp1, 0);
     std::string hello = "Hello from C++";
     return env->NewStringUTF(hello.c_str());
 }
 
 
 
-extern "C"
-JNIEXPORT jstring JNICALL
-Java_com_vaca_myapplication_MainActivity_updateKcp(JNIEnv *env, jobject thiz) {
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_vaca_myapplication_MainActivity_updateKcp(JNIEnv *env, jobject thiz, jlong t) {
+    ikcp_update(kcp1, t);
 }

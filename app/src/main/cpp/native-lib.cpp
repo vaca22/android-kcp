@@ -85,20 +85,16 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_vaca_myapplication_MainActivity_initUdp(JNIEnv *env, jobject thiz, jbyteArray ip) {
     signed char *array1 = env->GetByteArrayElements(ip, NULL);
-
     unsigned char x1=array1[0];
     unsigned char x2=array1[1];
     unsigned char x3=array1[2];
     unsigned char x4=array1[3];
-
     sprintf(dest_ip,"%d.%d.%d.%d",x1,x2,x3,x4);
-
     LOGE("%s",dest_ip);
-
-    env->ReleaseByteArrayElements(ip, array1, 0);
-/*    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
         LOGE("create socket error\n");
     }else{
         LOGE("fuck2\n");
-    }*/
+    }
+    env->ReleaseByteArrayElements(ip, array1, 0);
 }

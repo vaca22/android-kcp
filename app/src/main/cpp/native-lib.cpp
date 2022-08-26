@@ -44,8 +44,8 @@ Java_com_vaca_myapplication_MainActivity_initKcp(JNIEnv *env, jobject thiz) {
     kcp1->rx_minrto = 10;
     kcp1->fastresend = 1;
 
-    char buffer[20000];
-    ikcp_send(kcp1, buffer, 20000);
+    char buffer[200];
+    ikcp_send(kcp1, buffer, 200);
     std::string hello = "Hello from C++";
     return env->NewStringUTF(hello.c_str());
 }

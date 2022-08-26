@@ -68,7 +68,7 @@ Java_com_vaca_myapplication_MainActivity_updateKcp(JNIEnv *env, jobject thiz, jl
 
 void sendData(char *data){
     if (!sockfd) {
-        printf("socket is failed! \n");
+        LOGE("socket is failed! \n");
         return;
     }
     struct sockaddr_in client_addr;

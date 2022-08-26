@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Example of a call to a native method
-        binding.sampleText.text = initKcp()
+
+       initKcp()
 
 
         dataScope.launch {
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    external fun initKcp(): String
+    external fun initKcp()
     external fun updateKcp(t:Long)
 
     companion object {

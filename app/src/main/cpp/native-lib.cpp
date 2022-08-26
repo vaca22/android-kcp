@@ -34,7 +34,7 @@ ikcpcb *kcp1;
 
 
 extern "C"
-JNIEXPORT jstring JNICALL
+JNIEXPORT void JNICALL
 Java_com_vaca_myapplication_MainActivity_initKcp(JNIEnv *env, jobject thiz) {
     LOGE("fuck\n");
     kcp1 = ikcp_create(0x11223344, (void *) 0);
@@ -46,8 +46,7 @@ Java_com_vaca_myapplication_MainActivity_initKcp(JNIEnv *env, jobject thiz) {
 
     char buffer[200];
     ikcp_send(kcp1, buffer, 200);
-    std::string hello = "Hello from C++";
-    return env->NewStringUTF(hello.c_str());
+
 }
 
 

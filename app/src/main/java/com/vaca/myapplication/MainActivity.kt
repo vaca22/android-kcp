@@ -1,13 +1,11 @@
 package com.vaca.myapplication
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.vaca.myapplication.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     val dataScope = CoroutineScope(Dispatchers.IO)
@@ -20,7 +18,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initUdp(byteArrayOf(192.toByte(),168.toByte(),0,1))
+//        native_say_hello(null)
+        native_say_hello(object:GreetListener{
+            override fun onGreetReceive(greet: GreetCallback?) {
+                Log.e("gaga",greet!!.greetMsg)
+            }
 
+        })
 /*       initKcp()
 
 
@@ -32,10 +36,16 @@ class MainActivity : AppCompatActivity() {
         }*/
     }
 
+    interface GreetListener {
+        fun onGreetReceive(greet: GreetCallback?)
+    }
+
+
     external fun initUdp(ip: ByteArray)
     external fun sendUdp(data: ByteArray,len:Int)
     external fun initKcp()
     external fun updateKcp(t:Long)
+    external fun native_say_hello(listener: GreetListener?)
 
     companion object {
         init {

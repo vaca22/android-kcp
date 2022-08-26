@@ -19,8 +19,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initUdp(byteArrayOf(192.toByte(),168.toByte(),0,1))
 
-       initKcp()
+/*       initKcp()
 
 
         dataScope.launch {
@@ -28,10 +29,10 @@ class MainActivity : AppCompatActivity() {
                 updateKcp(System.currentTimeMillis())
                 delay(20)
             }
-        }
+        }*/
     }
 
-
+    external fun initUdp(ip: ByteArray)
 
     external fun initKcp()
     external fun updateKcp(t:Long)

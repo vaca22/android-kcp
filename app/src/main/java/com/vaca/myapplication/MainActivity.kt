@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     external fun initUdp(ip: ByteArray)
-
+    external fun sendUdp(data: ByteArray,len:Int)
     external fun initKcp()
     external fun updateKcp(t:Long)
 

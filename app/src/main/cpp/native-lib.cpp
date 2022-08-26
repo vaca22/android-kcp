@@ -66,7 +66,7 @@ Java_com_vaca_myapplication_MainActivity_updateKcp(JNIEnv *env, jobject thiz, jl
 
 
 
-void sendData(char *data){
+void sendData(char *data,int len){
     if (!sockfd) {
         LOGE("socket is failed! \n");
         return;
@@ -78,7 +78,7 @@ void sendData(char *data){
         LOGE("inet_pton error for\n");
         return;
     }
-    sendto(sockfd,data, strlen(data), 0, (struct sockaddr*)&client_addr, sizeof(client_addr));
+    sendto(sockfd,data, len, 0, (struct sockaddr*)&client_addr, sizeof(client_addr));
 }
 
 extern "C"
@@ -97,4 +97,20 @@ Java_com_vaca_myapplication_MainActivity_initUdp(JNIEnv *env, jobject thiz, jbyt
         LOGE("fuck2\n");
     }
     env->ReleaseByteArrayElements(ip, array1, 0);
+}
+
+
+
+
+
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_vaca_myapplication_MainActivity_sendUdp(JNIEnv *env, jobject thiz, jbyteArray data,
+                                                 jint len) {
+
+    signed char *array1 = env->GetByteArrayElements(data, NULL);
+    sendData(reinterpret_cast<char *>(array1), len);
+    env->ReleaseByteArrayElements(data, array1, 0);
+
 }

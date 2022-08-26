@@ -54,3 +54,17 @@ Java_com_vaca_myapplication_MainActivity_stringFromJNI(
 
 
 }
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_vaca_myapplication_MainActivity_initKcp(JNIEnv *env, jobject thiz) {
+
+}
+
+
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_vaca_myapplication_MainActivity_updateKcp(JNIEnv *env, jobject thiz) {
+
+}

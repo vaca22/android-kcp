@@ -19,14 +19,12 @@ class MainActivity : AppCompatActivity() {
         binding.sampleText.text = stringFromJNI()
     }
 
-    /**
-     * A native method that is implemented by the 'myapplication' native library,
-     * which is packaged with this application.
-     */
+
     external fun stringFromJNI(): String
+    external fun initKcp(): String
+    external fun updateKcp(): String
 
     companion object {
-        // Used to load the 'myapplication' library on application startup.
         init {
             System.loadLibrary("myapplication")
         }

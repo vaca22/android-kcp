@@ -28,14 +28,16 @@ int udp_output(const char *buf, int len, ikcpcb *kcp, void *user) {
 }
 
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_vaca_myapplication_MainActivity_stringFromJNI(
-        JNIEnv *env,
-        jobject) {
 
 
+ikcpcb *kcp1;
+
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_vaca_myapplication_MainActivity_initKcp(JNIEnv *env, jobject thiz) {
     LOGE("fuck\n");
-    ikcpcb *kcp1 = ikcp_create(0x11223344, (void *) 0);
+    kcp1 = ikcp_create(0x11223344, (void *) 0);
     kcp1->output = udp_output;
     ikcp_wndsize(kcp1, 128, 128);
     ikcp_nodelay(kcp1, 2, 10, 2, 1);
@@ -51,14 +53,6 @@ Java_com_vaca_myapplication_MainActivity_stringFromJNI(
     ikcp_update(kcp1, 0);
     std::string hello = "Hello from C++";
     return env->NewStringUTF(hello.c_str());
-
-
-}
-
-extern "C"
-JNIEXPORT jstring JNICALL
-Java_com_vaca_myapplication_MainActivity_initKcp(JNIEnv *env, jobject thiz) {
-
 }
 
 

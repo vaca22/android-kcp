@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import com.vaca.myapplication.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class MainActivity : AppCompatActivity() {
-
+    val dataScope = CoroutineScope(Dispatchers.IO)
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,11 +18,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Example of a call to a native method
-        binding.sampleText.text = stringFromJNI()
+        binding.sampleText.text = initKcp()
     }
 
 
-    external fun stringFromJNI(): String
+
     external fun initKcp(): String
     external fun updateKcp(): String
 

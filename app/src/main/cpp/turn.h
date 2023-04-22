@@ -14,7 +14,7 @@ typedef void SendDataCallback(Juice_thing *thing);
 void set_remote_description(char *sdp);
 void done_gather();
 void add_remote_candidate(char *sdp);
-void test_turn(SendDataCallback *sendDataCallback);
+void test_turn();
 #ifdef __cplusplus
 }
 #endif

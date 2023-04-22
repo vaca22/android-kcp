@@ -127,40 +127,35 @@ void sendDataCallback(Juice_thing *juiceThing) {
 }
 
 void fuck2() {
-    test_turn(&sendDataCallback);
+    test_turn();
 }
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_vaca_myapplication_MainActivity_stringFromJNI(
         JNIEnv *env,
         jobject obj) {
-    (*env).GetJavaVM( &g_VM);
-    // 生成一个全局引用保留下来，以便回调
-    g_obj = (*env).NewGlobalRef( obj);
-    pthread_t thread1;
-    char *message1 = "Thread 1";
-    pthread_create(&thread1, NULL, reinterpret_cast<void *(*)(void *)>(fuck2), (void *) message1);
+    test_turn();
     std::string hello = "Hello frffom C++";
     return env->NewStringUTF(hello.c_str());
 }
 
 void process_message(char *message) {
-    cJSON *root = cJSON_Parse(message);
-    if (root != nullptr) {
-        char *n1 = cJSON_GetStringValue(cJSON_GetObjectItem(root, "action"));
-        char *n2 = cJSON_GetStringValue(cJSON_GetObjectItem(root, "content"));
-        LOGE("action:%s\n", n1);
-        LOGE("content:%s\n", n2);
-        if (strcmp(n1, "candidate") == 0) {
-            add_remote_candidate(n2);
-        } else if (strcmp(n1, "ice") == 0) {
-            set_remote_description(n2);
-        } else if (strcmp(n1, "done") == 0) {
-            done_gather();
-        }
-
-        cJSON_Delete(root);
-    }
+//    cJSON *root = cJSON_Parse(message);
+//    if (root != nullptr) {
+//        char *n1 = cJSON_GetStringValue(cJSON_GetObjectItem(root, "action"));
+//        char *n2 = cJSON_GetStringValue(cJSON_GetObjectItem(root, "content"));
+//        LOGE("action:%s\n", n1);
+//        LOGE("content:%s\n", n2);
+//        if (strcmp(n1, "candidate") == 0) {
+//            add_remote_candidate(n2);
+//        } else if (strcmp(n1, "ice") == 0) {
+//            set_remote_description(n2);
+//        } else if (strcmp(n1, "done") == 0) {
+//            done_gather();
+//        }
+//
+//        cJSON_Delete(root);
+//    }
 }
 
 extern "C"

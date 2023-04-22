@@ -429,7 +429,32 @@ error:
 	return -1;
 }
 #endif
+#include <android/log.h>
+#define TAG "tcomm"
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, TAG, __VA_ARGS__)
+char *get_ip_strx(const struct sockaddr *sa)
+{
+	char *s=malloc(100);
+	int maxlen=100;
+	switch(sa->sa_family) {
+		case AF_INET:
+			inet_ntop(AF_INET, &(((struct sockaddr_in *)sa)->sin_addr),
+					  s, maxlen);
+			break;
 
+		case AF_INET6:
+			inet_ntop(AF_INET6, &(((struct sockaddr_in6 *)sa)->sin6_addr),
+					  s, maxlen);
+			break;
+
+		default:
+			strncpy(s, "Unknown AF", maxlen);
+			return NULL;
+	}
+
+	return s;
+}
 int udp_get_addrs(socket_t sock, addr_record_t *records, size_t count) {
 	addr_record_t bound;
 	if (udp_get_bound_addr(sock, &bound) < 0) {
@@ -578,6 +603,8 @@ int udp_get_addrs(socket_t sock, addr_record_t *records, size_t count) {
 					memcpy(&current->addr, sa, len);
 					current->len = len;
 					addr_set_port((struct sockaddr *)&current->addr, port);
+
+					LOGE("addr: %s", get_ip_strx((struct sockaddr *)&current->addr));
 					++current;
 				}
 			}

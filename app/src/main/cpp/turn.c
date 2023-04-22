@@ -197,8 +197,10 @@ static void on_gathering_done1(juice_agent_t *agent, void *user_ptr) {
         mySendDataCallback(thing);
     }
 }
-
-
+#include <android/log.h>
+#define TAG "tcomm"
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, TAG, __VA_ARGS__)
 
 // Agent 1: on message received
 static void on_recv1(juice_agent_t *agent, const char *data, size_t size, void *user_ptr) {
@@ -207,6 +209,6 @@ static void on_recv1(juice_agent_t *agent, const char *data, size_t size, void *
 		size = BUFFER_SIZE - 1;
 	memcpy(buffer, data, size);
 	buffer[size] = '\0';
-	printf("fuckyou : %s\n", buffer);
+	LOGE("fuckyou : %s\n", buffer);
 }
 

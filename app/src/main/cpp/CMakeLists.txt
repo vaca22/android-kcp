@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.18.1)
 project("myapplication")
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/cJSON)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/juice)
 
 set(LIBJUICE_SOURCES
@@ -33,7 +33,7 @@ set(LIBJUICE_SOURCES
 
 add_library(myapplication
         SHARED
-        native-lib.cpp
+        native-lib.cpp turn.c
         ikcp.c ${LIBJUICE_SOURCES})
 
 
@@ -44,5 +44,6 @@ find_library(
 
 target_link_libraries(
         myapplication
-
+        Threads::Threads
+        cjson
         ${log-lib})

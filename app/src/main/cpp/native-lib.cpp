@@ -47,15 +47,12 @@ void createSocket() {
 
 void beat_heart2() {
     usleep(2000);
-
     struct sockaddr_in dest_addr;
     dest_addr.sin_addr.s_addr = inet_addr("192.168.6.14");
     dest_addr.sin_family = AF_INET;
     dest_addr.sin_port = htons(14971);
     char buf2[]="fuckyou";
-
     sendto(sockfd, buf2, strlen(buf2), 0,(struct sockaddr *)&dest_addr, sizeof(dest_addr));
-
 }
 
 extern "C" JNIEXPORT jstring JNICALL

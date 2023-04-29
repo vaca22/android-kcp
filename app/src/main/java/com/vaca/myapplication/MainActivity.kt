@@ -2,12 +2,18 @@ package com.vaca.myapplication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import com.vaca.myapplication.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    var ip=""
+    var port=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,20 +21,43 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Example of a call to a native method
-        binding.sampleText.text = stringFromJNI()
+        binding.sendPing.setOnClickListener {
+            sendUdp()
+        }
+
+        binding.send2.setOnClickListener {
+            if(ip.isNotEmpty()){
+                port=14972
+                beginStun(ip,port)
+            }
+        }
+
+        initUdp()
     }
 
-    /**
-     * A native method that is implemented by the 'myapplication' native library,
-     * which is packaged with this application.
-     */
-    external fun stringFromJNI(): String
+
+    external fun initUdp()
+    external fun sendUdp()
+
+    external fun beginStun(ip:String,port:Int)
 
     companion object {
-        // Used to load the 'myapplication' library on application startup.
         init {
             System.loadLibrary("myapplication")
+        }
+    }
+    val dataScope = CoroutineScope(Dispatchers.IO)
+    fun recvData(s: String) {
+        MainScope().launch {
+            try {
+                val json=JSONObject(s)
+                ip=json.getString("ip")
+                port=json.getInt("port")
+                binding.info.text=s
+            }catch (e:Exception){
+                binding.info.text=s
+            }
+
         }
     }
 }

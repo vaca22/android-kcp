@@ -6,7 +6,7 @@ project("myapplication")
 
 add_library(myapplication
         SHARED
-        native-lib.cpp
+        main.cpp
         ikcp.c)
 
 

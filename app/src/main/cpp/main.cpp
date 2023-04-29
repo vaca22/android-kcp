@@ -73,7 +73,7 @@ void createSocket() {
 
 void send_ping() {
     struct sockaddr_in dest_addr;
-    dest_addr.sin_addr.s_addr = inet_addr("192.168.6.14");
+    dest_addr.sin_addr.s_addr = inet_addr("1.14.135.210");
     dest_addr.sin_family = AF_INET;
     dest_addr.sin_port = htons(14971);
     char buf2[] = "wsmslgh";

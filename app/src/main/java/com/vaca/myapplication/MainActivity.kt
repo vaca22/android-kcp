@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.send2.setOnClickListener {
             if(ip.isNotEmpty()){
-                port=14972
                 beginStun(ip,port)
             }
         }
